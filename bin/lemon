@@ -1,0 +1,8 @@
+#!/usr/bin/env python
+# -*- coding; utf-8 -*-
+
+from lemontwist import LemonFactory
+
+if __name__ == '__main__':
+    reactor.listenTCP(8000, LemonFactory())
+    reactor.run()

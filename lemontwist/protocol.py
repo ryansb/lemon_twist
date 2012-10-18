@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # -*- coding; utf-8 -*-
+
+
 from twisted.protocols.basic import LineReceiver
 from twisted.internet.protocol import Factory
 from twisted.internet import reactor
@@ -13,6 +15,7 @@ class Lemon(LineReceiver):
 
     def connectionMade(self):
         #TODO: Log that a connection was started
+        pass
 
     def connectionLost(self, reason):
         #TODO: Log connection closure
@@ -21,11 +24,11 @@ class Lemon(LineReceiver):
 
     def lineReceived(self, line):
         if not self.state:
-            arg = ' '.join(line.split(' ')[1:].strip())
+            args = ' '.join(line.split(' ')[1].strip())
             if line.startswith("USER"):
-                self.handle_USER(line)
+                self.handle_USER(args)
             if line.startswith("IBUTTON"):
-                self.handle_IBUTTON(line)
+                self.handle_IBUTTON(args)
         else:
             self.handle_COMMAND(line)
 
@@ -34,6 +37,13 @@ class Lemon(LineReceiver):
     #    for name, protocol in self.users.iteritems():
     #        if protocol != self:
     #            protocol.sendLine(message)
+
+    def handle_COMMAND(self, line):
+        cmd = line.split(' ')
+        if len(cmd) > 1:
+            getattr(self, "handle_" + cmd[0])(' '.join(cmd[1:]).strip())
+        else:
+            getattr(self, "handle_" + cmd[0])()
 
     def handle_USER(self, uname):
         #TODO: Check uname exists in LDAP
@@ -131,8 +141,3 @@ class LemonFactory(Factory):
 
     def buildProtocol(self, addr):
         return Lemon(self.users)
-
-
-if __name__ == '__main__':
-    reactor.listenTCP(8000, LemonFactory())
-    reactor.run()
