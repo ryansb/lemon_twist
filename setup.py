@@ -1,6 +1,6 @@
 from setuptools import setup
 
-from lemontwist import __version__
+from lemon import __version__
 
 setup(name='lemon',
       version=__version__,

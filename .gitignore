@@ -2,7 +2,7 @@
 .*.swp
 *.log
 *~
-lemontwist.egg-info
+lemon.egg-info
 .tox
 .coverage
 MANIFEST

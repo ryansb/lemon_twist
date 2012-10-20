@@ -3,5 +3,10 @@
 
 __version__ = "0.1"
 
-from protocol import Lemon
-from protocol import LemonFactory
+from lemon.twist import Lemon
+from lemon.twist import LemonFactory
+
+__all__ = [
+    Lemon,
+    LemonFactory,
+]
