@@ -2,7 +2,7 @@ from setuptools import setup
 
 from lemontwist import __version__
 
-setup(name='lemontwist',
+setup(name='lemon',
       version=__version__,
       description="A Twisted take on a classic Drink.",
       long_description="",
@@ -14,7 +14,7 @@ setup(name='lemontwist',
       url='http://github.com/ryansb/lemon_twist',
       scripts=['bin/lemon'],
       license='MIT',
-      packages=['lemontwist', 'lemontwist.models'],
+      packages=['lemon', 'lemon.peel', 'lemon.meringue', 'lemon.twist'],
       include_package_data=True,
       zip_safe=True,
       install_requires=[
