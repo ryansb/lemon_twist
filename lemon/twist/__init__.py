@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 # -*- coding; utf-8 -*-
-
-
 from twisted.protocols.basic import LineReceiver
 from twisted.internet.protocol import Factory
-from twisted.internet import reactor
+
 
 class Lemon(LineReceiver):
     def __init__(self, users):
@@ -12,6 +10,7 @@ class Lemon(LineReceiver):
         self.name = None
         self.state = ""
         self.machine = ""
+        self.blank = False
 
     def connectionMade(self):
         #TODO: Log that a connection was started
@@ -38,12 +37,23 @@ class Lemon(LineReceiver):
     #        if protocol != self:
     #            protocol.sendLine(message)
 
+    #TODO: two blank lines in a row disconnect
+
     def handle_COMMAND(self, line):
+        if not len(line.strip()):
+            if self.blank:
+                self.loseConnection()
+            self.blank = True
+        else:
+            self.blank = False
         cmd = line.split(' ')
         if len(cmd) > 1:
             getattr(self, "handle_" + cmd[0])(' '.join(cmd[1:]).strip())
         else:
             getattr(self, "handle_" + cmd[0])()
+
+    def handle_QUIT(self):
+        self.loseConnection()
 
     def handle_USER(self, uname):
         #TODO: Check uname exists in LDAP
@@ -52,6 +62,14 @@ class Lemon(LineReceiver):
         self.STATE = "SYN"
         if uname:
             self.sendLine("OK")
+
+    def handle_WHOAMI(self):
+        #TODO: check current user
+        if self.STATE == "AUTH":
+            #TODO: Get number of credits
+            self.sendLine("OK: %s" % self.name)
+        else:
+            self.sendLine("ERR 204 You need to login.")
 
     def handle_PASS(self, password):
         #TODO: check password against username
@@ -63,7 +81,6 @@ class Lemon(LineReceiver):
         else:
             self.STATE = "DENIED"
             self.sendLine("ERR 407 Invalid password.")
-            self.loseConnection()
 
     def handle_IBUTTON(self, ibutton):
         #TODO: check ibutton against LDAP
@@ -75,13 +92,11 @@ class Lemon(LineReceiver):
         else:
             self.STATE = "DENIED"
             self.sendLine("ERR 207 Invalid Ibutton.")
-            self.loseConnection()
 
     def handle_MACHINE(self, machine):
         self.machine = machine
         if machine not in ['d', 'ld', 's']:
             self.sendLine("ERR 414 Invalid machine name - USAGE: MACHINE < d | ld | s >")
-            self.loseConnection()
         #TODO: grab information about machines
         machine_slots = []
         for slot in machine_slots:
@@ -116,11 +131,10 @@ class Lemon(LineReceiver):
             # ERR 103 Unknown Failure.
             # ERR 150 Unable to initialize hardware for drop.
             self.sendLine("ERR 103 Unknown Failure.")
-            self.loseConnection()
         #TODO: Drop a drink
         self.sendLine("Dropping drink")
 
-    def handle_SENDCREDITS(self, args):
+    def handle_ADDCREDITS(self, args):
         numcredits, dest = args.split(' ')
         try:
             #TODO: transfer the credits
@@ -137,7 +151,7 @@ class Lemon(LineReceiver):
 
 class LemonFactory(Factory):
     def __init__(self):
-        self.users = {} # maps user names to Lemon protocol instances
+        self.users = {}  # maps user names to Lemon protocol instances
 
     def buildProtocol(self, addr):
         return Lemon(self.users)
