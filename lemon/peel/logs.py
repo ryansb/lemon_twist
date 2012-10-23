@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding; utf-8 -*-
+# -*- coding: utf-8 -*-
 
 # logging and history peels
 # drop_log, temperature_log, money_log

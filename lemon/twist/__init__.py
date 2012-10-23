@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# -*- coding; utf-8 -*-
+# -*- coding: utf-8 -*-
 from twisted.protocols.basic import LineReceiver
 from twisted.internet.protocol import Factory
 
