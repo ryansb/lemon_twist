@@ -6,3 +6,5 @@ lemon.egg-info
 .tox
 .coverage
 MANIFEST
+doc/_build
+_trial_temp
