@@ -6,10 +6,8 @@ from lemon.peel import util
 
 
 class Model(util.DBConn):
-    #
-    # schema
-    #
 
+    ### Schema ###
     metadata = sa.MetaData()
 
     drink_users = sa.Table(
