@@ -19,6 +19,7 @@ setup(name='lemon',
       zip_safe=True,
       install_requires=[
           # -*- Extra requirements: -*-
+          "twisted"
       ],
       entry_points="""
       # -*- Entry points: -*-
