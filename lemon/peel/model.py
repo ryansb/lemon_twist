@@ -13,7 +13,7 @@ class Model(util.DBConn):
     metadata = sa.MetaData()
 
     drink_users = sa.Table(
-        'drunk_users',
+        'drink_users',
         metadata,
         sa.Column('drink_id',
                   sa.Integer(unsigned=True),
