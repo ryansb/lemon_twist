@@ -133,7 +133,7 @@ Specifies a password, second phase of the login process.
 The password is (unfortunately) transmitted in plain-text,
 and the server response will indicate the user balance if successful. 
 
-NOTE: If this command fails for any reason, the 'USER' command will have to be resent.
+.. note:: If this command fails for any reason, the 'USER' command will have to be resent.
 
 **Server Responses:**
 
@@ -325,7 +325,7 @@ Each line contains the stats for one slot. The fields are space-delimited, excep
 
 ``<Slot #> <Contents> <Cost> <# Available> <Total # Dropped> <bool enabled>``
 
-NOTE: Contents is wrapped in quotes, and may contain spaces.
+.. note:: Contents is wrapped in quotes, and may contain spaces.
 
 The final line from the server is a typical status message, and it is in the form:
 
@@ -333,13 +333,14 @@ The final line from the server is a typical status message, and it is in the for
 
 Where n is the number of slots retrieved.
 
-NOTE: Clients should not assume that the slot numbers will be contiguous. The server may contains slots 0-4, but 3 may be disabled. The server may skip disabled/empty slots and simply subtract skipped slots from the 'OK' status message at the end of the output.
+.. note:: Clients should not assume that the slot numbers will be contiguous. The server may contains slots 0-4, but 3 may be disabled. The server may skip disabled/empty slots and simply subtract skipped slots from the 'OK' status message at the end of the output.
 
 
 TEMP
 ````
 Displays the current machine temperature.
-Note that the temperature that is returned is in centigrade.
+
+.. note:: The temperature that is returned is in centigrade.
 
 Big Drink is currently the only machine with hardware to check temperature.
 
