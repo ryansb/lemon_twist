@@ -1,7 +1,49 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from twisted.protocols.basic import LineReceiver
+from shlex import split
+from twisted.python import log
+from twisted.python.log import logging
 from twisted.internet.protocol import Factory
+from twisted.protocols.basic import LineReceiver
+from lemon.errors import NotEnoughArgumentsException
+
+required_args = dict(
+    USER=1,
+    PASS=1,
+    IBUTTON=1,
+    MACHINE=1,
+    DROP=1,
+    RAND=0,
+    STAT=0,
+    TEMP=0,
+    GETBALANCE=0,
+    ADDCREDITS=2,
+    SENDCREDITS=2,
+    EDITSLOT=6,
+    ISVALIDUSER=1,
+    QUERYADMIN=1,
+    LOG=0,
+    LOCATION=0,
+    VERSION=0,
+    CODE=2,
+    UPTIME=0,
+    QUIT=0,
+)
+
+
+def parseLine(line):
+    line = split(line)
+    cmd = line[0].upper()
+    args = []
+    if len(line) > 1:
+        args = line[1:]
+    if not len(args) >= required_args[cmd]:
+        msg = ("Not enough arguments. Command %s requires %s arguments, "
+               "%s given.")
+        raise NotEnoughArgumentsException(msg % (
+            cmd, required_args[cmd], len(args))
+        )
+    return cmd, args
 
 
 class Lemon(LineReceiver):
@@ -24,35 +66,30 @@ class Lemon(LineReceiver):
         print reason
 
     def lineReceived(self, line):
-        if not self.state:
-            args = ' '.join(line.split(' ')[1].strip())
-            if line.startswith("USER"):
-                self.handle_USER(args)
-            if line.startswith("IBUTTON"):
-                self.handle_IBUTTON(args)
-        else:
-            self.handle_COMMAND(line)
-
-    #def handle_CHAT(self, message):
-    #    message = "<%s> %s" % (self.name, message)
-    #    for name, protocol in self.users.iteritems():
-    #        if protocol != self:
-    #            protocol.sendLine(message)
-
-    #TODO: two blank lines in a row disconnect
-
-    def handle_COMMAND(self, line):
         if not len(line.strip()):
             if self.blank:
                 self.loseConnection()
+                return
             self.blank = True
         else:
             self.blank = False
-        cmd = line.split(' ')
-        if len(cmd) > 1:
-            getattr(self, "handle_" + cmd[0])(' '.join(cmd[1:]).strip())
+        try:
+            cmd, args = parseLine(line)
+        except NotEnoughArgumentsException, e:
+            log.msg(e.message, logLevel=logging.WARN)
+            self.sendLine("ERR 406 Invalid Parameters.")
+            return
+
+        # how about we don't put passwords in the logs?
+        if not cmd in ['IBUTTON', 'PASS']:
+            log.msg("Received command:", line)
         else:
-            getattr(self, "handle_" + cmd[0])()
+            log.msg("Received command:", cmd, "*****")
+
+        if not hasattr(self, "handle_" + cmd):
+            self.sendLine("ERR 452 Invalid command.")
+            return
+        getattr(self, "handle_" + cmd)(*args)
 
     def handle_QUIT(self):
         self.loseConnection()
