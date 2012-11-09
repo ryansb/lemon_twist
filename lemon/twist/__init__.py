@@ -110,8 +110,9 @@ class Lemon(LineReceiver):
         else:
             self.sendLine("ERR 204 You need to login.")
 
-    def handle_PASS(self, password):
+    def handle_PASS(self, *args):
         #TODO: check password against username
+        password = args[0]
         if password:
             self.STATE = "AUTH"
             #TODO: Get number of credits
@@ -121,7 +122,8 @@ class Lemon(LineReceiver):
             self.STATE = "DENIED"
             self.sendLine("ERR 407 Invalid password.")
 
-    def handle_IBUTTON(self, ibutton):
+    def handle_IBUTTON(self, *args):
+        ibutton = args[0]
         #TODO: check ibutton against LDAP
         if ibutton:
             self.STATE = "AUTH"
@@ -135,7 +137,8 @@ class Lemon(LineReceiver):
     def handle_MACHINE(self, machine):
         self.machine = machine
         if machine not in ['d', 'ld', 's']:
-            self.sendLine("ERR 414 Invalid machine name - USAGE: MACHINE < d | ld | s >")
+            self.sendLine("ERR 414 Invalid machine name - USAGE: "
+                          "MACHINE < d | ld | s >")
         #TODO: grab information about machines
         machine_slots = []
         for slot in machine_slots:
@@ -173,10 +176,20 @@ class Lemon(LineReceiver):
         #TODO: Drop a drink
         self.sendLine("Dropping drink")
 
-    def handle_ADDCREDITS(self, args):
+    def handle_ADDCREDITS(self, *args):
         numcredits, dest = args.split(' ')
         try:
-            #TODO: transfer the credits
+            #TODO: add the credits
+            self.sendLine("OK: ")
+        except:
+            # ERR 208 Transfer error - user doesnt exist.
+            # ERR 209 Error during credit transfer.
+            self.sendLine("ERR 208")
+
+    def handle_SENDCREDITS(self, *args):
+        dest, numcredits = args.split(' ')
+        try:
+            #TODO: transfer the credits from issuing user to destination user
             self.sendLine("OK: ")
         except:
             # ERR 208 Transfer error - user doesnt exist.
@@ -184,8 +197,9 @@ class Lemon(LineReceiver):
             self.sendLine("ERR 208")
 
     def handle_UPTIME(self):
-        #TODO: Get the server's uptime
-        self.sendLine("OK: Up since: Wed, 16 Sept 1959 00:07:37 EST")
+        #TODO: Get the server's uptime, we haven't actually been up since the
+        # start of the epoch
+        self.sendLine("OK: Up since: Thu, 1 Jan 1970 00:00:00 UTC")
 
 
 class LemonFactory(Factory):
