@@ -1,10 +1,25 @@
 from copy import deepcopy
 from lemon.conf import LemonConfig
 from lemon.twist import LemonFactory
+from twisted.python import log, util
 from twisted.application import service
 from twisted.python.logfile import LogFile
 from twisted.application.internet import TCPServer
-from twisted.python.log import ILogObserver, FileLogObserver
+
+
+class FormattedLogObserver(log.FileLogObserver):
+    """Custom Logging observer"""
+    def emit(self, eventDict):
+        """Custom emit for FileLogObserver"""
+        text = log.textFromEventDict(eventDict)
+        if text is None:
+            return
+        self.timeFormat = '[%Y-%m-%d %H:%M:%S]'
+        timeStr = self.formatTime(eventDict['time'])
+        fmtDict = {'text': text.replace("\n", "\n\t")}
+        msgStr = log._safeFormat("%(text)s\n", fmtDict)
+        util.untilConcludes(self.write, timeStr + " LemonTwist " + msgStr)
+        util.untilConcludes(self.flush)
 
 
 class LemonTwistService(service.Service):
@@ -26,4 +41,4 @@ TCPServer(s.config.port, s.getLemonTwistFactory()
 
 # Log to /tmp for now
 logfile = LogFile("lemontwist.log", "/tmp", rotateLength=None)
-application.setComponent(ILogObserver, FileLogObserver(logfile).emit)
+application.setComponent(log.ILogObserver, FormattedLogObserver(logfile).emit)
