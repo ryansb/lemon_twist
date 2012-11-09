@@ -4,7 +4,6 @@
 # Model wrappers for OPL. Our Precious Lemons.
 
 from twisted.enterprise import adbapi
-from twistar.registry import Registry
 from lemon.peel.logs import DropLog, TemperatureLog, MoneyLog
 from lemon.peel.apps import AppId, AppInfo, AppProp, AppUsers, AppUsed
 from lemon.peel.machines import MachineId, MachineIp, MachineProperty, SlotProperty

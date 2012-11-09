@@ -5,7 +5,8 @@ from twisted.internet.protocol import Factory
 
 
 class Lemon(LineReceiver):
-    def __init__(self, users):
+    def __init__(self, users, config):
+        self.config = config
         self.users = users
         self.name = None
         self.state = ""
@@ -18,8 +19,9 @@ class Lemon(LineReceiver):
 
     def connectionLost(self, reason):
         #TODO: Log connection closure
-        if self.users.has_key(self.name):
+        if self.name in self.users:
             del self.users[self.name]
+        print reason
 
     def lineReceived(self, line):
         if not self.state:
@@ -150,8 +152,10 @@ class Lemon(LineReceiver):
 
 
 class LemonFactory(Factory):
+    config = None
+
     def __init__(self):
         self.users = {}  # maps user names to Lemon protocol instances
 
     def buildProtocol(self, addr):
-        return Lemon(self.users)
+        return Lemon(users=self.users, config=self.config)

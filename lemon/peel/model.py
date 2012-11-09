@@ -149,7 +149,7 @@ class Model(util.DBConn):
                   nullable=True),
         sa.Column('drink_id',
                   sa.Integer(unsigned=True),
-                  sa.ForeignKey('drink_users.drink_id')
+                  sa.ForeignKey('drink_users.drink_id'),
                   nullable=False),
         sa.Column('stat_id',
                   sa.SmallInteger(unsigned=True),
@@ -168,11 +168,11 @@ class Model(util.DBConn):
                   nullable=False),
         sa.Column('drink_id',
                   sa.Integer(unsigned=True),
-                  sa.ForeignKey('drink_users.drink_id')
+                  sa.ForeignKey('drink_users.drink_id'),
                   nullable=False),
         sa.Column('admin_id',
                   sa.Integer(unsigned=True),
-                  sa.ForeignKey('drink_users.drink_id')
+                  sa.ForeignKey('drink_users.drink_id'),
                   nullable=False),
         sa.Column('amount',
                   sa.Integer(unsigned=True),
@@ -199,12 +199,12 @@ class Model(util.DBConn):
         metadata,
         sa.Column('aid',
                   sa.SmallInteger(unsigned=True),
-                  sa.ForeignKey('app_id.aid')
+                  sa.ForeignKey('app_id.aid'),
                   primary_key=True,
                   nullable=False),
-        sa.Column('owner', #drink_id
+        sa.Column('owner',
                   sa.Integer(unsigned=True),
-                  sa.ForeignKey('drink_users.drink_id')
+                  sa.ForeignKey('drink_users.drink_id'),
                   primary_key=True,
                   nullable=False),
         sa.Column('description',
@@ -217,7 +217,7 @@ class Model(util.DBConn):
         metadata,
         sa.Column('aid',
                   sa.SmallInteger(unsigned=True),
-                  sa.ForeignKey('app_id.aid')
+                  sa.ForeignKey('app_id.aid'),
                   primary_key=True,
                   nullable=False),
         sa.Column('public_key',
@@ -234,12 +234,12 @@ class Model(util.DBConn):
         metadata,
         sa.Column('aid',
                   sa.SmallInteger(unsigned=True),
-                  sa.ForeignKey('app_id.aid')
+                  sa.ForeignKey('app_id.aid'),
                   primary_key=True,
                   nullable=False),
         sa.Column('drink_id',
                   sa.Integer(unsigned=True),
-                  sa.ForeignKey('drink_users.drink_id')
+                  sa.ForeignKey('drink_users.drink_id'),
                   primary_key=True,
                   nullable=False),
         sa.Column('date_granted',
@@ -252,12 +252,12 @@ class Model(util.DBConn):
         metadata,
         sa.Column('aid',
                   sa.SmallInteger(unsigned=True),
-                  sa.ForeignKey('app_id.aid')
+                  sa.ForeignKey('app_id.aid'),
                   primary_key=True,
                   nullable=False),
         sa.Column('drink_id',
                   sa.Integer(unsigned=True),
-                  sa.ForeignKey('drink_users.drink_id')
+                  sa.ForeignKey('drink_users.drink_id'),
                   primary_key=True,
                   nullable=False),
         sa.Column('time',

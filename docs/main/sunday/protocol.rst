@@ -1,5 +1,5 @@
 ============================================
-Welcome to the Sunday Protocol Documentation
+Sunday Protocol Documentation
 ============================================
 .. _sunday:
 
