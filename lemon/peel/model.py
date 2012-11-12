@@ -2,14 +2,18 @@
 # -*- coding: utf-8 -*-
 
 import sqlalchemy as sa
-from lemon.peel import util
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
 
 
-class Model(util.DBConn):
+class Model(Base):
+    pass
 
     ### Schema ###
     metadata = sa.MetaData()
 
+    # Done
     drink_users = sa.Table(
         'drink_users',
         metadata,
@@ -25,6 +29,7 @@ class Model(util.DBConn):
                   nullable=True),
     )
 
+    # Done
     status_id = sa.Table(
         'status_id',
         metadata,
@@ -37,6 +42,7 @@ class Model(util.DBConn):
                   nullable=False),
     )
 
+    # Done
     machine_id = sa.Table(
         'machine_id',
         metadata,
@@ -52,6 +58,7 @@ class Model(util.DBConn):
                   default=False),
     )
 
+    # Drop
     machine_ip = sa.Table(
         'machine_ip',
         metadata,
@@ -67,6 +74,7 @@ class Model(util.DBConn):
                   nullable=True),
     )
 
+    # Drop
     machine_property = sa.Table(
         'machine_property',
         metadata,
@@ -94,6 +102,7 @@ class Model(util.DBConn):
                   nullable=True),
     )
 
+    # Done
     slot_property = sa.Table(
         'slot_property',
         metadata,
@@ -119,6 +128,7 @@ class Model(util.DBConn):
                   nullable=True),
     )
 
+    # Done
     temperature_log = sa.Table(
         'temperature_log',
         metadata,
@@ -134,6 +144,7 @@ class Model(util.DBConn):
                   nullable=True),
     )
 
+    # Done
     drop_log = sa.Table(
         'drop_log',
         metadata,

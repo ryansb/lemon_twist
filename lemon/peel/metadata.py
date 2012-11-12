@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Information about peels. Status info and user table username changes.
-# status_id, drink_users
-from twistar.dbobject import DBObject
+# Information about peels. Status info table.
+# status_id
+import sqlalchemy as sa
+from lemon.peel import Model
 
 
-class StatusId(DBObject):
-    pass
-
-
-class DrinkUsers(DBObject):
-    pass
+class StatusId(Base):
+    __tablename__ = 'status_id'
+    stat_id   = sa.Column(sa.Integer(unsigned=True),
+                          primary_key=True,
+                          nullable=False)
+    stat_name = sa.Column(sa.String(length=512),
+                          nullable=False)
