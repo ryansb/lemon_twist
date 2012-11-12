@@ -5,6 +5,7 @@ from twisted.python import log
 from twisted.python.log import logging
 from twisted.internet.protocol import Factory
 from twisted.protocols.basic import LineReceiver
+from twisted.internet.threads import deferToThread
 from lemon.errors import NotEnoughArgumentsException
 
 required_args = dict(
@@ -113,14 +114,22 @@ class Lemon(LineReceiver):
     def handle_PASS(self, *args):
         #TODO: check password against username
         password = args[0]
-        if password:
-            self.STATE = "AUTH"
-            #TODO: Get number of credits
+        if self.STATE is not "SYN":
+            self.sendLine("ERR 201 USER command needs to be issued first.")
+            return
+
+        def callBack():
+            self.state = "AUTH"
             numcredits = 0
-            self.sendLine("OK: %s" % numcredits)
-        else:
-            self.STATE = "DENIED"
+            self.sendLine("OK Credits: %s" % numcredits)
+
+        def errBack():
             self.sendLine("ERR 407 Invalid password.")
+
+        #TODO: threadpool call to authenticate the user
+        d = deferToThread(password)
+        d.addCallback(callBack)
+        d.addErrback(errBack)
 
     def handle_IBUTTON(self, *args):
         ibutton = args[0]
