@@ -3,11 +3,12 @@
 
 # Model wrappers for OPL. Our Precious Lemons.
 
+from lemon.peel.model import Model
 from twisted.enterprise import adbapi
+from lemon.peel.metadata import StatusId, DrinkUsers
 from lemon.peel.logs import DropLog, TemperatureLog, MoneyLog
 from lemon.peel.apps import AppId, AppInfo, AppProp, AppUsers, AppUsed
 from lemon.peel.machines import MachineId, MachineIp, MachineProperty, SlotProperty
-from lemon.peel.metadata import StatusId, DrinkUsers
 
 __all__ = [
     DropLog,
@@ -24,4 +25,5 @@ __all__ = [
     SlotProperty,
     StatusId,
     DrinkUsers,
+    Model,
 ]
