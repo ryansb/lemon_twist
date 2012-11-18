@@ -31,6 +31,15 @@ required_args = dict(
     QUIT=0,
 )
 
+machine_required = [
+    "DROP",
+    "RAND",
+    "STAT",
+    "TEMP",
+    "EDITSLOT",
+    "LOCATION",
+]
+
 
 def parseLine(line):
     line = split(line)
@@ -53,7 +62,7 @@ class Lemon(LineReceiver):
         self.users = users
         self.name = None
         self.state = ""
-        self.machine = ""
+        self.machine = None
         self.blank = False
 
     def connectionMade(self):
@@ -89,6 +98,9 @@ class Lemon(LineReceiver):
 
         if not hasattr(self, "handle_" + cmd):
             self.sendLine("ERR 452 Invalid command.")
+            return
+        if cmd in machine_required and self.machine is None:
+            self.sendLine("ERR 407 Select machine.")
             return
         getattr(self, "handle_" + cmd)(*args)
 

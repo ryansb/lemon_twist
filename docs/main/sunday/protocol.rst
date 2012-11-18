@@ -86,6 +86,11 @@ Conventions
   for any command where all the required parameters are not provided,
   or more parameters are provided than necessary.
 
+* The error ``>ERR 407 Select machine.`` will be thrown
+  for any command where the user needs to select a machine
+  (DROP, STAT, TEMP, etc.)
+  but has not yet done so.
+
 * If a command is not implemented in the current version of the drink
   software, the command will return ``>ERR 451 Not implemented.``
 
@@ -429,6 +434,7 @@ EDITSLOT
 
 * Auth
 * Admin
+* Machine selected
 
 Edits all values for a single slot. All arguments are required.
 
