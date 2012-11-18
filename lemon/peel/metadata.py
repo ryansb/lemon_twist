@@ -5,7 +5,6 @@
 # status_id
 import sqlalchemy as sa
 from lemon.peel import Base
-from sqlalchemy.orm import relationship
 
 
 class StatusId(Base):
@@ -15,3 +14,7 @@ class StatusId(Base):
                         nullable=False)
     stat_name = sa.Column(sa.String(length=512),
                           nullable=False)
+
+    def __repr__(self):
+        return "StatusId: <%s> stat_name: \"%s\"" % (
+            self.stat_id, self.stat_name)
