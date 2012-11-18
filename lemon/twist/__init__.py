@@ -167,14 +167,10 @@ class Lemon(LineReceiver):
 
     def handle_STAT(self):
         #TODO: Get status of machine
-        # getStatus(self.machine)
         try:
-            machine_slots = []
-            for slot in machine_slots:
-                self.sendLine(repr(slot))
-                # Slot repr format:
-                # <slot num(int)> <slot name(string)> <slot price(int)> <num available(int)> <slot status(bool)>\n
-            self.sendLine("OK %s Slots retrieved" % len(machine_slots))
+            for slot in self.machine.slots:
+                self.sendLine("OK " + slot.sunday_repr())
+            self.sendLine("OK %s Slots retrieved" % len(self.machine.slots))
         except:
             self.sendLine("ERR 416 Machine is offline or unreachable")
 

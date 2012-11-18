@@ -73,6 +73,12 @@ class Slot(Base):
                              nullable=False,
                              default=0)
 
+    def sunday_repr(self):
+        # <num(int)> <name(string)> <price> <available(int)> <status(bool)>
+        return "%s \"%s\" %s %s %s" % (self.slot_num, self.slot_name,
+                                       self.price, self.availability,
+                                       str(self.machine.allow_connect).lower())
+
     def __repr__(self):
         return "<Slot #%s in %s, name: \"%s\" price: %s available: %s>" % (
             self.slot_num, self.machine.machine_name, self.slot_name,
