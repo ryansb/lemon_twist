@@ -25,7 +25,7 @@ class DropLog(Base):
     drink_id = sa.Column(sa.Integer(unsigned=True),
                          sa.ForeignKey('drink_users.drink_id'),
                          nullable=False)
-    user = relationship('User', backref='drop_logs')
+    drink_user = relationship('User', backref='drop_logs')
     stat_id = sa.Column(sa.SmallInteger(unsigned=True),
                         sa.ForeignKey('status_id.stat_id'),
                         nullable=False)
@@ -34,7 +34,7 @@ class DropLog(Base):
     def __repr__(self):
         return ("DropLog: <%s> mid: <%s> slot_name: \"%s\" "
                 "user: <%s> status: \"%s\"" % (
-                self.time, self.mid, self.slot_name, self.user.user_name,
+                self.time, self.mid, self.slot_name, self.drink_user.user_name,
                 self.stat.stat_name))
 
 
