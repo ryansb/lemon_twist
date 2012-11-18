@@ -23,6 +23,11 @@ class User(Base):
     #money_logs, a list of all transactions a user has made ordered by time
     #admin_logs, a list of all transactions in which a user has been an admin
 
+    @property
+    def numcredits(self):
+        #TODO: query ldap for user's number of credits
+        return 9001
+
     def __repr__(self):
         if self.admin:
             return "<Admin User: \"%s\" drink_id: %s uid: %s>" % (

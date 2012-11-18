@@ -7,6 +7,7 @@ from twisted.internet.protocol import Factory
 from twisted.protocols.basic import LineReceiver
 from twisted.internet.threads import deferToThread
 from lemon.util.errors import NotEnoughArgumentsException
+from lemon import deferred
 
 required_args = dict(
     USER=1,
@@ -60,7 +61,8 @@ class Lemon(LineReceiver):
     def __init__(self, users, config):
         self.config = config
         self.users = users
-        self.name = None
+        self.uname = ""
+        self.user = None
         self.state = ""
         self.machine = None
         self.blank = False
@@ -71,8 +73,8 @@ class Lemon(LineReceiver):
 
     def connectionLost(self, reason):
         #TODO: Log connection closure
-        if self.name in self.users:
-            del self.users[self.name]
+        if self.user.user_name in self.users:
+            del self.users[self.user.user_name]
         print reason
 
     def lineReceived(self, line):
@@ -110,7 +112,7 @@ class Lemon(LineReceiver):
     def handle_USER(self, uname):
         #TODO: Check uname exists in LDAP
         self.users[uname] = self
-        self.name = uname
+        self.uname = uname
         self.STATE = "SYN"
         if uname:
             self.sendLine("OK")
@@ -131,15 +133,13 @@ class Lemon(LineReceiver):
             return
 
         def callBack():
-            self.state = "AUTH"
-            numcredits = 0
-            self.sendLine("OK Credits: %s" % numcredits)
+            self.sendLine("OK Credits: %s" % self.user.numcredits)
 
         def errBack():
             self.sendLine("ERR 407 Invalid password.")
 
         #TODO: threadpool call to authenticate the user
-        d = deferToThread(password)
+        d = deferToThread(deferred.authUser, self, password)
         d.addCallback(callBack)
         d.addErrback(errBack)
 
