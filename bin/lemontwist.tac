@@ -1,5 +1,5 @@
 from copy import deepcopy
-from lemon.conf import LemonConfig
+from lemon.util.conf import LemonConfig
 from lemon.twist import LemonFactory
 from twisted.python import log, util
 from twisted.application import service

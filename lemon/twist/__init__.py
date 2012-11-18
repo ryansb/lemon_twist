@@ -6,7 +6,7 @@ from twisted.python.log import logging
 from twisted.internet.protocol import Factory
 from twisted.protocols.basic import LineReceiver
 from twisted.internet.threads import deferToThread
-from lemon.errors import NotEnoughArgumentsException
+from lemon.util.errors import NotEnoughArgumentsException
 
 required_args = dict(
     USER=1,
