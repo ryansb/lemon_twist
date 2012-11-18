@@ -5,7 +5,6 @@
 # drink_users
 import sqlalchemy as sa
 from lemon.peel import Base
-from sqlalchemy.orm import backref, relationship
 
 
 class User(Base):
@@ -23,3 +22,10 @@ class User(Base):
     #drop_logs, a list of all drops a user has made ordered by time
     #money_logs, a list of all transactions a user has made ordered by time
     #admin_logs, a list of all transactions in which a user has been an admin
+
+    def __repr__(self):
+        if self.admin:
+            return "Admin User: <%s> drink_id: %s uid: %s" % (
+                self.user_name, self.drink_id, self.uid)
+        return "User: <%s> drink_id: %s uid: %s" % (
+            self.user_name, self.drink_id, self.uid)
