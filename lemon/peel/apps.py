@@ -3,24 +3,24 @@
 
 # applications to obtain lemons. Currently not implemented
 # app_id, app_info, app_prop, app_users, app_used
-from twistar.dbobject import DBObject
+from lemon.peel import Base
 
 
-class AppId(DBObject):
+class AppId(Base):
     pass
 
 
-class AppInfo(DBObject):
+class AppInfo(Base):
     pass
 
 
-class AppProp(DBObject):
+class AppProp(Base):
     pass
 
 
-class AppUsers(DBObject):
+class AppUsers(Base):
     pass
 
 
-class AppUsed(DBObject):
+class AppUsed(Base):
     pass
