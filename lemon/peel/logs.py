@@ -32,8 +32,8 @@ class DropLog(Base):
     stat = relationship('StatusId')
 
     def __repr__(self):
-        return ("DropLog: <%s> mid: <%s> slot_name: \"%s\" "
-                "user: <%s> status: \"%s\"" % (
+        return ("<DropLog: %s mid: %s slot_name: \"%s\" "
+                "user: \"%s\" status: \"%s\">" % (
                 self.time, self.mid, self.slot_name, self.drink_user.user_name,
                 self.stat.stat_name))
 
@@ -51,7 +51,7 @@ class TemperatureLog(Base):
                      nullable=True)
 
     def __repr__(self):
-        return "TemperatureLog: <%s> mid: \"%s\" temp: <%s>" % (
+        return "<TemperatureLog: \"%s\" mid: \"%s\" temp: %s>" % (
             self.time, self.mid, self.temp)
 
 
@@ -81,6 +81,7 @@ class MoneyLog(Base):
                        nullable=False)
 
     def __repr__(self):
-        return "MoneyLog: <%s> amount: <%s> user: <%s> admin: <%s> reason: \"%s\"" % (
-            self.time, self.amount, self.drink_user.user_name, self.admin_user.user_name,
-            self.reason)
+        return ("<MoneyLog: %s amount: %s user: \"%s\" admin: \"%s\" "
+                "reason: \"%s\">" % (
+                    self.time, self.amount, self.drink_user.user_name,
+                    self.admin_user.user_name, self.reason))

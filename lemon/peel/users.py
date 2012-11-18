@@ -25,7 +25,7 @@ class User(Base):
 
     def __repr__(self):
         if self.admin:
-            return "Admin User: <%s> drink_id: %s uid: %s" % (
+            return "<Admin User: \"%s\" drink_id: %s uid: %s>" % (
                 self.user_name, self.drink_id, self.uid)
-        return "User: <%s> drink_id: %s uid: %s" % (
+        return "<User: \"%s\" drink_id: %s uid: %s>" % (
             self.user_name, self.drink_id, self.uid)
