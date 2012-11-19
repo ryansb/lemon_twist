@@ -12,4 +12,5 @@ Welcome to lemon's documentation!
 * :ref:`modindex`
 * :ref:`search`
 * :ref:`peel`
-
+* :ref:`twist`
+* :ref:`protocol`

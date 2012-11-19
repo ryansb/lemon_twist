@@ -1,7 +1,7 @@
 ============================================
-Sunday Protocol Documentation
+Welcome to the Sunday protocol documentation
 ============================================
-.. _sunday:
+.. _protocol:
 
 Sunday Protocol
 ---------------
@@ -415,7 +415,7 @@ The value given for the credits parameter was not a number. The only characters 
 
 
 SENDCREDITS
-``````````
+```````````
 **SENDCREDITS <credits> <username>**
 
 Synonym for ADDCREDITS,

@@ -7,16 +7,17 @@ Data Models
 -----------
 
 This page contains a text summary for the SQL schema used by lemon,
-the full SQL file to bootstrap the database,
-and the docs for the ActiveRecord objects.
+and the docs for the SQLAlchemy objects.
 
 Database Interaction
 --------------------
 
 We interact with the database using
-`twistar <http://findingscience.com/twistar/>`_
-An asynchronous ActiveRecord implementation for
-`Twisted <http://twistedmatrix.com/trac/>`_
+`sqlalchemy <http://docs.sqlalchemy.org/en/rel_0_7>`_ version 0.7.8
+An exceedingly fancy Python ORM.
+We interact with it in a deferred manner
+using twisted.internet.threads.deferToThread
+so we don't block the reactor unnecessarily
 
 Schema Summary
 --------------
@@ -107,41 +108,19 @@ App Tables
     * drink_id
     * date(datetime)
 
-Bootstrapping the DB
---------------------
-.. literalinclude:: ../../../sql/create_db.sql
-   :language: mysql
-   :linenos:
-
 lemon.peel.machines
 -------------------
-MachineId
-`````````
-.. autoclass:: lemon.peel.machines.MachineId
+Machine
+```````
+.. autoclass:: lemon.peel.machines.Machine
    :members:
    :undoc-members:
    :inherited-members:
    :show-inheritance:
 
-MachineIp
-`````````
-.. autoclass:: lemon.peel.machines.MachineIp
-   :members:
-   :undoc-members:
-   :inherited-members:
-   :show-inheritance:
-
-MachineProperty
-```````````````
-.. autoclass:: lemon.peel.machines.MachineProperty
-   :members:
-   :undoc-members:
-   :inherited-members:
-   :show-inheritance:
-
-SlotProperty
-````````````
-.. autoclass:: lemon.peel.machines.SlotProperty
+Slot
+````
+.. autoclass:: lemon.peel.machines.Slot
    :members:
    :undoc-members:
    :inherited-members:
@@ -184,9 +163,12 @@ StatusId
    :inherited-members:
    :show-inheritance:
 
-DrinkUsers
-``````````
-.. autoclass:: lemon.peel.metadata.DrinkUsers
+
+lemon.peel.users
+-------------------
+User
+````
+.. autoclass:: lemon.peel.users.User
    :members:
    :undoc-members:
    :inherited-members:
