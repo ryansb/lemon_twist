@@ -43,6 +43,13 @@ class LemonConfig(object):
         self.db_pass = None
         self.port = 9001
 
+        self.dc = None
+        self.cn = None
+        self.ou = None
+        self.search_ou = None
+        self.ldap_pass = None
+        self.ldap_server = None
+
     @classmethod
     def loadConfig(cls, filename):
         if not os.path.exists(filename):
@@ -73,6 +80,14 @@ class LemonConfig(object):
         config.db_user = cfg.get('DB', 'user', config.db_user)
         config.db_pass = cfg.get('DB', 'pass', config.db_pass)
         config.port = cfg.getint('Network', 'port')
+
+        # load LDAP information
+        config.dc = cfg.get('LDAP', 'dc', config.dc)
+        config.cn = cfg.get('LDAP', 'cn', config.cn)
+        config.ou = cfg.get('LDAP', 'ou', config.ou)
+        config.search_ou = cfg.get('LDAP', 'search_ou', config.search_ou)
+        config.ldap_pass = cfg.get('LDAP', 'pass', config.ldap_pass)
+        config.ldap_server = cfg.get('LDAP', 'server', config.ldap_server)
 
         # run some sanity checks
         config.check_db(errors)
