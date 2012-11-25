@@ -8,7 +8,7 @@ from lemon.peel import Base
 
 
 class User(Base):
-    __tablename__ = 'drink_users'
+    __tablename__ = 'users'
     drink_id = sa.Column(sa.Integer(unsigned=True),
                          primary_key=True,
                          nullable=False)

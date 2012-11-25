@@ -23,7 +23,7 @@ class DropLog(Base):
     slot_name = sa.Column(sa.String(length=255),
                           nullable=True)
     drink_id = sa.Column(sa.Integer(unsigned=True),
-                         sa.ForeignKey('drink_users.drink_id'),
+                         sa.ForeignKey('users.drink_id'),
                          nullable=False)
     drink_user = relationship('User', backref='drop_logs')
     stat_id = sa.Column(sa.SmallInteger(unsigned=True),
@@ -66,12 +66,12 @@ class MoneyLog(Base):
                      default=datetime.now(),
                      nullable=False)
     drink_id = sa.Column(sa.Integer(unsigned=True),
-                         sa.ForeignKey('drink_users.drink_id'),
+                         sa.ForeignKey('users.drink_id'),
                          nullable=False)
     drink_user = relationship("User", backref='money_logs',
                               primaryjoin="User.drink_id==MoneyLog.drink_id")
     admin_id = sa.Column(sa.Integer(unsigned=True),
-                         sa.ForeignKey('drink_users.drink_id'),
+                         sa.ForeignKey('users.drink_id'),
                          nullable=False)
     admin_user = relationship("User", backref='admin_logs',
                               primaryjoin="User.drink_id==MoneyLog.admin_id")
